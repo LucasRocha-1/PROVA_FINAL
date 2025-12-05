@@ -87,7 +87,7 @@ app.MapGet("/api/imc/listarporstatus/{classificacao}", ([FromServices] AppDataCo
 });
 
 //Alterar IMC pelo id
-app.MapPatch("/api/imc/alterar/{id}", ([FromRoute] string id,
+app.MapPut("/api/imc/alterar/{id}", ([FromRoute] string id,
     [FromBody] IMC imcAlterado,
     [FromServices] AppDataContext ctx) =>
 {   
@@ -102,6 +102,8 @@ app.MapPatch("/api/imc/alterar/{id}", ([FromRoute] string id,
     ctx.SaveChanges();
     return Results.Ok(resultado);
 });
+
+
 
 app.UseCors("Acesso Total");
 
