@@ -86,6 +86,23 @@ app.MapGet("/api/imc/listarporstatus/{classificacao}", ([FromServices] AppDataCo
     return Results.Ok(resultado);
 });
 
+//Alterar IMC pelo id
+app.MapPatch("/api/imc/alterar/{id}", ([FromRoute] string id,
+    [FromBody] IMC imcAlterado,
+    [FromServices] AppDataContext ctx) =>
+{   
+    IMC? resultado = ctx.IMCs.Find(id);
+    if (resultado is null)
+    {
+        return Results.NotFound("IMC não encontrado");
+    }
+    resultado.altura = imcAlterado.altura;
+    resultado.peso = imcAlterado.peso;
+    ctx.IMCs.Update(resultado);
+    ctx.SaveChanges();
+    return Results.Ok(resultado);
+});
+
 app.UseCors("Acesso Total");
 
 app.Run();
