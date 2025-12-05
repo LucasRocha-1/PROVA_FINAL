@@ -20,7 +20,7 @@ function CadastrarIMC() {
           classificacao: "",
           imc: 0
       };
-      const resposta = await axios.post("http://localhost:5011/api/imc/cadastrar", imc);            
+      const resposta = await axios.post("http://localhost:5078/api/imc/cadastrar", imc);            
       console.log(await resposta.data);
     } catch (error : any) {
         if(error.status === 409){
