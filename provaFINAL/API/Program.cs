@@ -15,7 +15,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-List<IMC> Imcs = new List<IMC>
+List<IMC> IMCs = new List<IMC>
 {
     new IMC { nome = "João Carlos Faria", altura = 1.75, peso = 70.0 },
     new IMC { nome = "Ana Maria da Souza", altura = 1.60, peso = 60.0 }
@@ -28,7 +28,7 @@ app.MapPost("/api/imc/cadastrar", ([FromBody] IMC imc,
     [FromServices] AppDataContext ctx) =>
 {
     IMC? resultado =
-        ctx.Imcs.FirstOrDefault(x => x.id == imc.id);
+        ctx.IMCs.FirstOrDefault(x => x.id == imc.id);
     if (resultado is not null)
     {
         return Results.Conflict("IMC já existente!");
@@ -58,11 +58,34 @@ app.MapPost("/api/imc/cadastrar", ([FromBody] IMC imc,
     {
         imc.classificacao = "Obesidade Grau III";
     }
-    ctx.Imcs.Add(imc);
+    ctx.IMCs.Add(imc);
     ctx.SaveChanges();
     return Results.Created("", imc);
 });
 
+//Listar imcs
+app.MapGet("/api/imc/listar", ([FromServices] AppDataContext ctx) =>
+{
+    //Validar se existe alguma coisa dentro da lista    
+    if (ctx.IMCs.Any())
+    {
+        return Results.Ok(ctx.IMCs.ToList());
+    }
+    return Results.BadRequest("Lista vazia");
+});
 
+//Listar imcs por classificação
+app.MapGet("/api/imc/listarporstatus/{classificacao}", ([FromServices] AppDataContext ctx, string classificacao) =>
+{
+ 
+    IMC? resultado = ctx.IMCs.Find(classificacao);
+    if (resultado is null)
+    {
+        return Results.NotFound("Nada na classificação");
+    }
+    return Results.Ok(resultado);
+});
+
+app.UseCors("Acesso Total");
 
 app.Run();

@@ -5,7 +5,7 @@ namespace API.Models;
 
 public class AppDataContext : DbContext
 {
-    public DbSet<IMC> Imcs { get; set; }
+    public DbSet<IMC> IMCs { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

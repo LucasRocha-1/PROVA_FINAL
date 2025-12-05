@@ -9,3 +9,5 @@ Content-Type: application/json
     "altura" : 1.75,
     "peso" : 70.0
 }
+###
+GET http://localhost:5078/api/imc/listar
