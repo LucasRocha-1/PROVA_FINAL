@@ -12,7 +12,7 @@ Content-Type: application/json
 ###
 GET http://localhost:5078/api/imc/listar
 ###
-PUT http://localhost:5078/api/imc/alterar/{id}
+PUT http://localhost:5078/api/imc/alterar/9b39f038-6bb6-430b-b28f-6a741b30fb75
 Content-Type: application/json
 
 {
